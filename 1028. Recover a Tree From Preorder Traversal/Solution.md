@@ -47,3 +47,42 @@ class Solution:
              
 
 ```
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def recoverFromPreorder(self, S: str) -> TreeNode:
+
+        n = len(S)
+        i = 0
+        cur_depth = 0
+        stack = []
+        while i < n:
+            val_s = ''
+            depth = 0
+            while S[i] == '-':
+                depth = depth + 1
+                i = i + 1
+            while i < n and S[i].isdigit():
+                val_s = val_s + S[i]
+                i = i + 1
+            val = int(val_s)
+
+            node = TreeNode(val)
+            if depth > cur_depth:
+                stack[-1].left = node
+                cur_depth = cur_depth + 1
+            else:
+                if stack:
+                    stack = stack[:depth]
+                    stack[-1].right = node
+                    cur_depth = depth
+            stack.append(node)
+        return stack[0]
+```
